@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GenericControllersExample.Models;
 using GenericControllersExample.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,17 @@ namespace GenericControllersExample.Controllers
         public void Delete(Guid id)
         {
             _storage.Delete(id);
+        }
+
+        [HttpGet("name/{id}")]
+        public string GetName(Guid id)
+        {
+            if (typeof(T) == typeof(Song))
+            {
+                return _storage.GetAll().Cast<Song>().FirstOrDefault(x => x.Id == id)?.Title;
+            }
+
+            return string.Empty;
         }
     }
 }
